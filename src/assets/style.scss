@@ -1,0 +1,71 @@
+@mixin makeFont($family, $src, $weight, $style: normal, $format: 'ttf') {
+  @font-face {
+    font-family: $family;
+    src: url($src) format($format);
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+@include makeFont('IBM Plex Sans', './fonts/IBMPlexSans-Regular.ttf', 400);
+@include makeFont('IBM Plex Sans', './fonts/IBMPlexSans-Medium.ttf', 500);
+@include makeFont('IBM Plex Sans', './fonts/IBMPlexSans-Bold.ttf', 700);
+
+$primary-color: #FFEFE7;
+$secondary-color: #FFDAC6;
+$tertiary-color: #BABD8D;
+$font-color: #7C6A0A;
+$font-stack: 'IBM Plex Sans', sans-serif;
+
+$spacing: 5%;
+
+*{
+  padding: 0;
+  margin: 0;
+
+  background-color: $primary-color;
+
+  font-family: $font-stack;
+
+  box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100vw;
+  height: 135px;
+  padding: 0 $spacing;
+
+  color: $font-color;
+
+  p {
+    height: fit-content;
+    font-size: 1.5em;
+  }
+  .nav-buttons {
+    display: flex;
+    gap: 25px;
+
+    button {
+      background: none;
+      border-style: none;
+    }
+  }
+}
+
+.main-section {
+  width: 100vw;
+  height: auto;
+}
+
+footer {
+  $background-color: #FA9500;
+
+  width: 100vw;
+  height: 461px;
+
+  background-color: $background-color;
+}
