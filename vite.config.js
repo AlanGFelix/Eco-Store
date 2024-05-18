@@ -9,4 +9,7 @@ export default {
   rollupOptions: {
     input: resolve(__dirname ,'src')
   },
+  alias: {
+    '@': resolve(__dirname, 'src'),
+  }
 }
