@@ -1,22 +1,99 @@
-@font-face {
-  font-family: 'IBM Plex Sans';
-  src: url('./fonts/IBMPlexSans-Regular.ttf') format('ttf');
-  font-weight: 400;
-  font-style: normal;
+@mixin makeFont($family, $src, $weight, $style: normal, $format: 'truetype') {
+  @font-face {
+    font-family: $family;
+    src: url($src) format($format);
+    font-weight: $weight;
+    font-style: $style;
+  }
 }
 
-@font-face {
-  font-family: 'IBM Plex Sans';
-  src: url('./fonts/IBMPlexSans-Medium.ttf');
-  font-weight: 500;
-  font-style: normal;
+@mixin tablet {
+  @media (max-width: 890px) {
+    @content;
+  }
 }
 
-@font-face {
-  font-family: 'IBM Plex Sans';
-  src: url('./fonts/IBMPlexSans-Bold.ttf');
-  font-weight: 700;
-  font-style: normal;
+@mixin mobile {
+  @media (max-width: 600px) {
+    @content;
+  }
+}
+
+@include makeFont('IBM Plex Sans', './fonts/IBMPlexSans-Regular.ttf', 400);
+@include makeFont('IBM Plex Sans', './fonts/IBMPlexSans-Medium.ttf', 500);
+@include makeFont('IBM Plex Sans', './fonts/IBMPlexSans-Bold.ttf', 700);
+
+@mixin card() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-width: 250px;
+  width: 250px;
+  height: 55vh;
+  padding: 10px 10px 45px 10px;
+  border-radius: 10px;
+
+  .info-product{
+    padding: 0 25px;
+    h3,
+    p{
+      background-color: inherit;
+    }
+    background-color: inherit;
+  }
+  .image-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 68%;
+
+    background-color: inherit;
+
+    svg {
+      align-self: flex-end;
+      
+      width: 25px;
+      height: fit-content;
+
+      background-color: inherit;
+    }
+  }
+  img {
+    align-self: center;
+
+    width: 80%;
+    height: 86%;
+    border-radius: 8px;
+
+    background-color: inherit;
+  }
+
+  .info-product {
+    h3{
+      font-size: 1.4em;
+    }
+    p {
+      font-size: 0.7em;
+    }
+  }
+}
+
+@mixin card-container {
+  display: grid;
+  gap: 20px;
+
+  justify-content: center;
+
+  grid-template-columns: repeat(auto-fit, 300px);
+
+  @include tablet(){
+    display: flex;
+    gap: 30px;
+
+    overflow-x: auto;
+    justify-content: start;
+  }
 }
 
 $primary-color: #FFEFE7;
@@ -24,6 +101,9 @@ $secondary-color: #FFDAC6;
 $tertiary-color: #BABD8D;
 $font-color: #7C6A0A;
 $font-stack: 'IBM Plex Sans', sans-serif;
+
+$background-primary: #FA9500;
+$spacing: 5%;
 
 *{
   padding: 0;
@@ -33,6 +113,8 @@ $font-stack: 'IBM Plex Sans', sans-serif;
 
   font-family: $font-stack;
 
+  color: $font-color;
+
   box-sizing: border-box;
 }
 
@@ -41,15 +123,15 @@ nav {
   justify-content: space-between;
   align-items: center;
 
-  width: 100vw;
+  width: 100%;
   height: 135px;
-  padding: 0 30px;
+  padding: 0 $spacing;
 
   color: $font-color;
 
   p {
     height: fit-content;
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
   .nav-buttons {
     display: flex;
@@ -63,15 +145,217 @@ nav {
 }
 
 .main-section {
-  width: 100vw;
+  width: 100%;
   height: auto;
+  padding: 0 $spacing;
+
+  .main-info-section {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+
+    margin-block-end: 5%;
+
+    p{
+      margin-block-end: 20%;
+
+      font-size: 1.5em;
+      font-weight: 400;
+
+      @include mobile() {
+        margin-block-end: 10%;
+      }
+    }
+    
+    .impact-section{
+      @include mobile() {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .impact-section h1 {
+      margin: 10% 0;
+
+      font-size: 3.6rem;
+      @include mobile() {
+        margin: 5% 0;
+
+        font-size: 1.8rem;
+      }
+    }
+    
+    .image-section {
+      @include mobile() {
+        align-self: center;
+      }
+    }
+
+    @include mobile(){
+      flex-direction: column-reverse;
+    }
+    
+    button {
+      width: 12vw;
+      min-width: 250px;
+      height: 70px;
+      border: none;
+      border-radius: 50px;
+      margin-block-end: 20px;
+
+      font-size: 1.5rem;
+
+      background-color: $background-primary;
+      color: $primary-color;
+    }
+
+    img{
+      width: 25vw;
+      min-width: 300px;
+      border-radius: 15px;
+
+      aspect-ratio: 9/12;
+    }
+  }
+}
+
+h2 {
+  margin-block: 30px;
+
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+.health--card-section {
+  @include card-container();
+  .card {
+    @include card();
+  }
+  .card__health{
+    background-color: $secondary-color;
+  }
+}
+
+.furniture--card-section {
+  @include card-container();
+
+  .card {
+    @include card();
+  }
+  .card__furniture{
+    background-color: $tertiary-color;
+    p,
+    h3{
+      color: $primary-color;
+    }
+  }
+}
+
+.info-section {
+  .why-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    flex-direction: row;
+
+    @include mobile() {
+      flex-direction: column;
+    }
+
+    p {
+      width: 40%;
+
+      text-align: center;
+      font-weight: 500;
+      font-size: 1.5rem;
+
+      color: #E86424;
+    }
+    img {
+      min-width: 100px;
+      width: 20%;
+      max-width: 150px;
+    }
+  }
+
+  .gallery-section div{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 100%;
+
+    @include tablet() {
+      flex-direction: column;
+    }
+    img {
+      width: 250px;
+      height: 300px;
+      border-radius: 15px;
+
+      object-fit: cover;
+    }
+  }
+  .location-section {
+    width: 100%;
+    margin-block-end: 60px;
+
+    img {
+      width: 100%;
+      margin-block-end: 30px;
+      @include mobile() {
+        height: 500px;
+        object-fit: cover;
+      }
+    }
+  }
 }
 
 footer {
-  $background-color: #FA9500;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 
-  width: 100vw;
+  width: 100%;
   height: 461px;
+  padding: 0 $spacing;
 
-  background-color: $background-color;
+  background-color: $background-primary;
+
+  .contacts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .social-media-section {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+
+    @include mobile() {
+      justify-content: start;
+    }
+    
+    img{
+      width: 40px;
+    }
+  }
+
+  div,
+  h2,
+  p,
+  img{
+    background-color: $background-primary;
+    color: $primary-color;
+  }
+
+  h2 {
+    margin: 0;
+  }
 }
+
