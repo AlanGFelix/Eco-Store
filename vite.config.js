@@ -11,5 +11,6 @@ export default {
   },
   alias: {
     '@': resolve(__dirname, 'src'),
-  }
+  },
+  base: '/Eco-Store/'
 }
